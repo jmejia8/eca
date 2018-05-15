@@ -31,7 +31,7 @@
 /*                                                                       */
 /*************************************************************************/
 
-Result eca(double (*f)(double*, int),
+double* eca(double (*f)(double*, int),
             int D,
             int N,
             int K,
@@ -106,7 +106,7 @@ Result eca(double (*f)(double*, int),
             // compare solutions
             if (fitness[i] < fh) {
                 int w = minind(fitness, N);
-                replace(&population[w], h, D);
+                replace(&population[w*D], h, D);
                 fitness[w] = fh;
             }
 
@@ -117,26 +117,35 @@ Result eca(double (*f)(double*, int),
         ++t;
     } while (!stop);
 
+
     int best_i = maxind(fitness, N);
 
-    Result result;
-    result.x = (double *) malloc(sizeof(double) * D);
-
+    double* result = (double *) malloc(sizeof(double) * (D + 1));
+    double fr;
     if (searchType) // maximize
-        result.f = fitness[best_i];
+        fr = fitness[best_i];
     else // minimize
-        result.f = -fitness[best_i];
+        fr = -fitness[best_i];
 
+    printf("%d\n", best_i);
     best_i *= D;
-    for (i = 0; i < D; ++i) {
-        result.x[i] = population[best_i + i];
-    }
+    for (i = 0; i < D; ++i)
+        result[i] = population[best_i + i];
+    
+    result[D] = fr;
+
 
     printf("===========[ ECA results ]=============\n");
     printf("| nevals = %d\n", nevals);
-    printf("| f      = %e\n", result.f);
-    printf("| x      = "); printArray(result.x, 1, D);
+    printf("| f      = %e\n", fr);
+    printf("| x      = "); printArray(result, 1, D);
     printf("=======================================\n");
+
+    free(population);
+    free(fitness);
+    free(U);
+    free(c);
+    free(h);
 
     return result;
 }
