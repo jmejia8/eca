@@ -27,7 +27,7 @@
 
 ## Example
 
-You can wirte C code to use ECA in your project:
+You can write C code to use ECA in your project:
 
 ```C
 #include "eca.c"
