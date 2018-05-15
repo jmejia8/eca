@@ -1,5 +1,5 @@
+#include "test_functions.h"
 #include "eca.c"
-#include "test_functions.c"
 
 
 int main(int argc, char const *argv[])
@@ -13,12 +13,12 @@ int main(int argc, char const *argv[])
     double eta_max = 2.0;
     double P_bin = 0.03;
     int    max_evals = 10000*D;
-    double low_bound = -100;
-    double up_bound = 100;
-    int    searchType = 0; // minimize
+    double low_bound = -10;
+    double up_bound = 10;
+    int    searchType = 1; // minimize
 
     // optimize
-    Result result = eca(sphere, D, N, K,
+    Result result = eca(gauss, D, N, K,
                         eta_max,
                         P_bin,
                         max_evals,
