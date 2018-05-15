@@ -1,9 +1,11 @@
+#include <math.h>
+
 // For minimizing
 double sphere(double* array, int D){
     int i; double s = 0;
     
     for (i = 0; i < D; ++i)
-        s += pow(array[i]-1, 2);
+        s += pow(array[i], 2);
 
     return s;
 }
