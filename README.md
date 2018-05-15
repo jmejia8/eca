@@ -47,7 +47,7 @@ int main(int argc, char const *argv[])
     int    max_evals = 10000*D;
     double low_bound = -10;
     double up_bound = 10;
-    int    searchType = 1; // minimize
+    int    searchType = 1; // maximize
 
     // optimize
     Result result = eca(gauss, D, N, K,
