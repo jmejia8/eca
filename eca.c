@@ -1,12 +1,49 @@
 #include "tools.c"
 
+/*************************************************************************/
+/*  eca.c                                                                */
+/*************************************************************************/
+/* Evolutionary Centers Algorithm                                        */
+/*************************************************************************/
+/*                                                                       */ 
+/* Parameters (suggested):                                               */
+/*      Dimension: D                                                     */
+/*      K-value:                                                         */
+/*            K = 7                                                      */
+/*      Population size:                                                 */
+/*            N = K*D                                                    */
+/*      stepsize:                                                        */
+/*            eta_max = 2.0                                              */
+/*      binomial probability:                                            */
+/*            P_bin = 0.03                                               */
+/*      Max. number of evaluations:                                      */
+/*            max_evals = 10000*D                                        */
+/*                                                                       */
+/* Bounds:                                                               */
+/*      Lower: low_bound                                                 */
+/*      Upper: up_bound                                                  */
+/*                                                                       */
+/* Search Type:                                                          */
+/*     Maximize:                                                         */
+/*         searchType = 1                                                */
+/*     minimize:                                                         */
+/*         searchType = 0                                                */
+/*                                                                       */
+/*************************************************************************/
 
-Result eca(double (*f)(double*, int), int D, int N){
-    int K = 7;
-    double eta_max= 2.0;
-    double P_bin  = 0.03;
-    int max_evals = 10000*D;
-    double a = -10, b = 10;
+Result eca(double (*f)(double*, int),
+            int D,
+            int N,
+            int K,
+            double eta_max,
+            double P_bin,
+            int    max_evals,
+            double low_bound,
+            double up_bound,
+            int    searchType
+            )
+{
+    double a = low_bound, b = up_bound;
 
     int stop = 0;
 
@@ -24,10 +61,12 @@ Result eca(double (*f)(double*, int), int D, int N){
     arrayRand(population, a, b, N * D);
     
     // evaluate population
-    evalPopulation(f,population, fitness, N, D);
+    evalPopulation(f, population, fitness, N, D, searchType);
 
+    // current number of evaluations
     int nevals = N;
     int t,i;
+    
     do
     {
         int ii = 0;
@@ -56,7 +95,12 @@ Result eca(double (*f)(double*, int), int D, int N){
             // variation operator
             mutation(h, x, c, u_best, u_worst, eta, a, b, P_bin, D);
 
-            double fh = (*f)(h, D);
+            double fh;
+            if (searchType) // maximize
+                fh = (*f)(h, D);
+            else // maximize
+                fh = -(*f)(h, D);
+
             nevals += 1;
 
             // compare solutions
@@ -78,8 +122,10 @@ Result eca(double (*f)(double*, int), int D, int N){
     Result result;
     result.x = (double *) malloc(sizeof(double) * D);
 
-    result.f = fitness[best_i];
-  
+    if (searchType) // maximize
+        result.f = fitness[best_i];
+    else // minimize
+        result.f = -fitness[best_i];
 
     best_i *= D;
     for (i = 0; i < D; ++i) {
@@ -87,8 +133,8 @@ Result eca(double (*f)(double*, int), int D, int N){
     }
 
     printf("===========[ ECA results ]=============\n");
-    printf("| f      = %e\n", result.f);
     printf("| nevals = %d\n", nevals);
+    printf("| f      = %e\n", result.f);
     printf("| x      = "); printArray(result.x, 1, D);
     printf("=======================================\n");
 
