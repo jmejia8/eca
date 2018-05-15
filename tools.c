@@ -35,10 +35,13 @@ void arrayRand(double *array, double a, double b, int N){
 }
 
 void evalPopulation(double (*f)(double*, int), double* array, double* fitness,
-                    int N, int D){
+                    int N, int D, int searchType){
     int i;
     for (i = 0; i < N; ++i) {
-        fitness[i] = (*f)(&array[i*D], D);
+        if (searchType)
+            fitness[i] = (*f)(&array[i*D], D);
+        else
+            fitness[i] = -(*f)(&array[i*D], D);
     }
 }
 
