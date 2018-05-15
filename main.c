@@ -157,27 +157,6 @@ void replace(double *x, double *h, int D){
 		x[i] = h[i];
 }
 
-void selection(double *x, double *h, double *fx, double *fh, int N, int D){
-	int i;
-	int x_id[N], h_id[N];
-
-	for (i = 0; i < N; ++i){
-		x_id[i] = i; h_id[i] = i;
-	}
-
-	quicksort(x_id, fx, 0, N-1);
-	quicksort(h_id, fh, 0, N-1);
-
-	int j = 0;
-	for (i = 0; i < N; ++i) {
-		if ( fh[h_id[i]] <= fx[x_id[j]] )
-			continue;
-
-		replace(&x[x_id[j]*D], &h[h_id[i]*D], D);
-		fx[x_id[j]] = fh[h_id[i]];
-		++j;
-	}
-}
 
 int maxind(double *f, int N){
 	int i;
