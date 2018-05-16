@@ -82,15 +82,15 @@ double* eca(double (*f)(double*, int),
             }
 
             // current solution
-            double *x = &population[i];
+            double *x = &population[i*D];
 
             // generate a center of mass
             center(c, population, fitness, &U[k], &best, &worst, K, D);
 
             // stepsize
             double eta = eta_max*randm();
-            double *u_worst = &population[worst];
-            double *u_best = &population[worst];
+            double *u_worst = &population[worst*D];
+            double *u_best = &population[best*D];
 
             // variation operator
             mutation(h, x, c, u_best, u_worst, eta, a, b, P_bin, D);
@@ -127,7 +127,6 @@ double* eca(double (*f)(double*, int),
     else // minimize
         fr = -fitness[best_i];
 
-    printf("%d\n", best_i);
     best_i *= D;
     for (i = 0; i < D; ++i)
         result[i] = population[best_i + i];

@@ -81,11 +81,14 @@ void center(double *c, double *population, double *m, int *U, int* best,
     double M = 0;
     double mini = m[U[0]];
 
+    if (mini >= 0) mini = 0;
+    else mini = 2.0*abs(mini);
+
     best[0]  = 0;
     worst[0] = 0;
     
-    double m_best = mini + m[best[0]];
-    double m_worst= mini + m[worst[0]];
+    double m_best = mini + m[U[best[0]]];
+    double m_worst= mini + m[U[worst[0]]];
 
     for (i = 0; i < D; ++i){
         c[i] = 0;
@@ -95,11 +98,9 @@ void center(double *c, double *population, double *m, int *U, int* best,
         }
     }
 
-    if (mini >= 0) mini = 0;
-    else mini = 2.0*abs(mini);
     
     for (i = 0; i < K; ++i) {
-        double *x = &population[ U[i] ];
+        double *x = &population[ U[i]*D ];
         double mass = mini + m[U[i]];
 
         for (j = 0; j < D; ++j)
