@@ -56,13 +56,16 @@ int main(int argc, char const *argv[])
     int    searchType = 1; // maximize
 
     // optimize
-    Result result = eca(gauss, D, N, K,
+    double* result = eca(gauss, D, N, K,
                         eta_max,
                         P_bin,
                         max_evals,
                         low_bound,
                         up_bound,
                         searchType);
+
+    // x = result[0 to D - 1]
+    // f(x) = result[D]
 
     return 0;
 }
