@@ -98,7 +98,7 @@ double* eca(double (*f)(double*, int),
             double fh;
             if (searchType) // maximize
                 fh = (*f)(h, D);
-            else // maximize
+            else // minimize
                 fh = -(*f)(h, D);
 
             nevals += 1;
