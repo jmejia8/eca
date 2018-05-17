@@ -43,6 +43,8 @@ double* eca(double (*f)(double*, int),
             int    searchType
             )
 {
+    srand(time(NULL));
+    
     double a = low_bound, b = up_bound;
 
     int stop = 0;

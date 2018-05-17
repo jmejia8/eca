@@ -4,14 +4,12 @@
 
 int main(int argc, char const *argv[])
 {
-    srand(time(NULL));
-
     // ECA parameters
-    int D = 10;
+    int D = 41;
     int K = 7;
     int N = K*D;
     double eta_max = 2.0;
-    double P_bin = 0.03;
+    double P_bin = 0.02;
     int    max_evals = 10000*D;
     double low_bound = -10;
     double up_bound = 10;
