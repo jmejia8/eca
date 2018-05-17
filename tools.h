@@ -197,17 +197,23 @@ int minind(double *f, int N){
 }
 
 void mutation(double *h, double *x, double *c, double* u_best, double* u_worst,
-              double eta, double a, double b, double P_bin, int D){
-    int i;
+              double eta, double a, double b, double P_bin, double P_exploit,
+              double p, int D)
+{
+    int i, exploit = p < P_exploit;
     double l = b - a;
+
     for (i = 0; i < D; ++i) {
         if (randm() < P_bin){
             h[i] = u_best[i];
             continue;
         }
 
-        h[i] = x[i] + eta*(c[i] - u_worst[i]);
-        
+        if (exploit)
+            h[i] = x[i] + eta*(c[i] - u_worst[i]);
+        else
+            h[i] = x[i] + eta*(u_best[i] - c[i]);
+
         if ( h[i] < a || b < h[i])
             h[i] = a + l*randm();
 

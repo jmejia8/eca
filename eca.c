@@ -37,6 +37,7 @@ double* eca(double (*f)(double*, int),
             int K,
             double eta_max,
             double P_bin,
+            double P_exploit,
             int    max_evals,
             double low_bound,
             double up_bound,
@@ -73,6 +74,8 @@ double* eca(double (*f)(double*, int),
     {
         int ii = 0;
         genU(U, N);
+
+        double p = (double) nevals / (double) max_evals;
     
         for (i = 0; !stop && i < N; ++i) {
             int k = ii*K;
@@ -95,7 +98,7 @@ double* eca(double (*f)(double*, int),
             double *u_best = &population[best*D];
 
             // variation operator
-            mutation(h, x, c, u_best, u_worst, eta, a, b, P_bin, D);
+            mutation(h, x, c, u_best, u_worst, eta, a, b, P_bin, P_exploit, p, D);
 
             double fh;
             if (searchType) // maximize

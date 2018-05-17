@@ -10,6 +10,7 @@ int main(int argc, char const *argv[])
     int N = K*D;
     double eta_max = 2.0;
     double P_bin = 0.02;
+    double P_exploit = 0.95;
     int    max_evals = 10000*D;
     double low_bound = -10;
     double up_bound = 10;
@@ -19,6 +20,7 @@ int main(int argc, char const *argv[])
     double* result = eca(sphere, D, N, K,
                         eta_max,
                         P_bin,
+                        P_exploit,
                         max_evals,
                         low_bound,
                         up_bound,
