@@ -5,7 +5,7 @@
 int main(int argc, char const *argv[])
 {
     // ECA parameters
-    int D = 41;
+    int D = 10;
     int K = 7;
     int N = K*D;
     double eta_max = 2.0;
